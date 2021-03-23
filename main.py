@@ -92,7 +92,9 @@ def get_ac_within_bounds(airport: list, radius: int) -> list:
 def postprocess(resultant_states):
     for s in resultant_states.states:
         print(
-            "(%r, %r, %r, %r)" % (s.longitude, s.latitude, s.baro_altitude, s.velocity)
+            "(Callsign: {}, Latitude: {}, Longitude: {}, Altitude: {}, Speed: {})".format(
+                s.callsign, s.longitude, s.latitude, s.baro_altitude, s.velocity
+            )
         )
 
 
