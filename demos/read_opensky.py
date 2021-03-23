@@ -1,4 +1,5 @@
 from opensky_api import OpenSkyApi
+import numpy as np
 
 
 def read_all_ac_bd():
