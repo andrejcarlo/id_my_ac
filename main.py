@@ -25,7 +25,7 @@ airport_data = data_dir.joinpath(filename)
 @click.option("--id", required=True, type=int, help="Airport id.")
 @click.option("--radius", default=60, type=int, help="Radius of search area in miles.")
 @click.option("--name", type=str, help="The airport's name.")
-def main(id, radius, name):
+def main(id, radius, name) -> None:
     # do some checks for id and airport options, what happens when they're not expected type
     # return airport not found
 
@@ -90,7 +90,7 @@ def get_ac_within_bounds(airport: list, radius: int) -> list:
     return states
 
 
-def postprocess(resultant_states):
+def postprocess(resultant_states) -> None:
     print("{} Results Found!".format(len(resultant_states.states)))
 
     for s in resultant_states.states:
