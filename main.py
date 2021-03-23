@@ -23,14 +23,15 @@ airport_data = data_dir.joinpath(filename)
 
 @click.command()
 @click.option("--id", required=True, type=int, help="Airport id.")
+@click.option("--radius", default=60, type=int, help="Radius of search area in miles.")
 @click.option("--name", type=str, help="The airport's name.")
-def main(id, name):
+def main(id, radius, name):
     # do some checks for id and airport options, what happens when they're not expected type
     # return airport not found
 
     filtered_airport = get_airport(id, name)
 
-    resultant_states = get_ac_within_bounds(airport=filtered_airport, radius=60)
+    resultant_states = get_ac_within_bounds(airport=filtered_airport, radius=radius)
 
     postprocess(resultant_states)
 
@@ -51,13 +52,13 @@ def get_airport(id: int, name: str = None) -> list:
     """
     df = pd.read_csv(airport_data)
 
-    if id in df["id"]:
+    try:
         condition = df["id"] == id  # | (df["name"] == name)
         df = df[condition]
 
         return df.to_dict("records")[0]
 
-    else:
+    except IndexError:
         inputDoesNotExist(id)
 
 
@@ -90,6 +91,8 @@ def get_ac_within_bounds(airport: list, radius: int) -> list:
 
 
 def postprocess(resultant_states):
+    print("{} Results Found!".format(len(resultant_states.states)))
+
     for s in resultant_states.states:
         print(
             "(Callsign: {}, Latitude: {}, Longitude: {}, Altitude: {}, Speed: {})".format(
@@ -100,5 +103,11 @@ def postprocess(resultant_states):
 
 if __name__ == "__main__":
     # pylint: disable=no-value-for-parameter
-
+    print("********************")
+    print()
+    print(
+        "Welcome to 'Find my Aircraft Inc.' to find a list of commands please run --help!"
+    )
+    print()
+    print("********************")
     sys.exit(main())
